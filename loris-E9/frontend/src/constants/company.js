@@ -22,6 +22,20 @@ const company = {
     logo: "/logo.png",
 
     favicon: "/favicon.ico"
+    
+    website: "https://www.lorise9.com",
+
+supportEmail: "support@lorise9.com",
+
+salesEmail: "sales@lorise9.com",
+
+facebook: "#",
+
+instagram: "#",
+
+linkedin: "#",
+
+youtube: "#"
 
 };
 
