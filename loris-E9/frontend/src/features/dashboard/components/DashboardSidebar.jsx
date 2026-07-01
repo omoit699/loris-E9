@@ -3,35 +3,27 @@ import DashboardProfile from "./DashboardProfile";
 import DashboardNavItem from "./DashboardNavItem";
 import DashboardFooter from "./DashboardFooter";
 
-import useSidebar from "../hooks/useSidebar";
-
 export default function DashboardSidebar({
 
     user,
 
-    navigation = [],
+    navigation,
+
+    collapsed,
+
+    mobileOpen,
+
+    toggleCollapse,
+
+    closeMobileSidebar,
 
     onLogout
 
 }) {
 
-    const {
-
-        collapsed,
-
-        mobileOpen,
-
-        toggleCollapse,
-
-        closeMobileSidebar
-
-    } = useSidebar();
-
     return (
 
         <>
-
-            {/* Mobile Overlay */}
 
             {mobileOpen && (
 
@@ -40,8 +32,8 @@ export default function DashboardSidebar({
                     className="
                         fixed
                         inset-0
-                        z-40
                         bg-black/50
+                        z-40
                         lg:hidden
                     "
 
@@ -51,33 +43,25 @@ export default function DashboardSidebar({
 
             )}
 
-            {/* Sidebar */}
-
             <aside
 
                 className={`
 
                     fixed
-
                     top-0
-
                     left-0
-
                     z-50
 
                     flex
+                    flex-col
 
                     h-screen
 
-                    flex-col
+                    bg-white
 
                     border-r
 
-                    border-slate-200
-
-                    bg-white
-
-                    shadow-xl
+                    shadow-lg
 
                     transition-all
 
@@ -95,8 +79,6 @@ export default function DashboardSidebar({
 
             >
 
-                {/* Logo */}
-
                 <DashboardLogo
 
                     collapsed={collapsed}
@@ -105,8 +87,6 @@ export default function DashboardSidebar({
 
                 />
 
-                {/* User */}
-
                 <DashboardProfile
 
                     user={user}
@@ -114,8 +94,6 @@ export default function DashboardSidebar({
                     collapsed={collapsed}
 
                 />
-
-                {/* Navigation */}
 
                 <nav
 
@@ -159,8 +137,6 @@ export default function DashboardSidebar({
                     </div>
 
                 </nav>
-
-                {/* Footer */}
 
                 <DashboardFooter
 
