@@ -1,42 +1,13 @@
 const company = {
-
-    name: "Loris E-9",
-
-    slogan: "We Value Your Satisfaction",
-
-    description:
-        "Your trusted hardware, construction materials, agricultural supplies and general merchandise marketplace.",
-
-    email: "info@lorise9.com",
-
-    phone: "+256 700 000 000",
-
-    whatsapp: "+256 700 000 000",
-
-    address: "Bukedea, Uganda",
-
-    country: "Uganda",
-
-    currency: "UGX",
-
-    logo: "/logo.png",
-
-    favicon: "/favicon.ico"
-    
-    website: "https://www.lorise9.com",
-
-supportEmail: "support@lorise9.com",
-
-salesEmail: "sales@lorise9.com",
-
-facebook: "#",
-
-instagram: "#",
-
-linkedin: "#",
-
-youtube: "#"
-
+    name: "Loris E9",
+    tagline: "We Value Your Satisfaction",
+    email: "lawrenceomoit66@gmail.com",
+    phone: [
+        "+256790206354",
+        "+256787772067"
+    ],
+    whatsapp: "+256790206354",
+    logo: "/images/logo.png"
 };
 
 export default company;
