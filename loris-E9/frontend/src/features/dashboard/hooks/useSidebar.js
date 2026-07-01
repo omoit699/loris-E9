@@ -1,72 +1,25 @@
 import { useEffect, useState } from "react";
 
-/**
- * Dashboard Sidebar Hook
- *
- * Handles:
- * - Desktop collapse state
- * - Mobile drawer state
- * - LocalStorage persistence
- */
-
-const STORAGE_KEY = "loris-sidebar-collapsed";
+const STORAGE_KEY = "loris-sidebar";
 
 export default function useSidebar() {
 
     const [collapsed, setCollapsed] = useState(() => {
-
-        const savedState = localStorage.getItem(STORAGE_KEY);
-
-        return savedState === "true";
-
+        return localStorage.getItem(STORAGE_KEY) === "true";
     });
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-
         localStorage.setItem(STORAGE_KEY, collapsed);
-
     }, [collapsed]);
 
-    const toggleCollapse = () => {
-
-        setCollapsed(previous => !previous);
-
-    };
-
-    const openMobileSidebar = () => {
-
-        setMobileOpen(true);
-
-    };
-
-    const closeMobileSidebar = () => {
-
-        setMobileOpen(false);
-
-    };
-
-    const toggleMobileSidebar = () => {
-
-        setMobileOpen(previous => !previous);
-
-    };
-
     return {
-
         collapsed,
-
         mobileOpen,
-
-        toggleCollapse,
-
-        openMobileSidebar,
-
-        closeMobileSidebar,
-
-        toggleMobileSidebar
-
+        toggleCollapse: () => setCollapsed(prev => !prev),
+        openMobileSidebar: () => setMobileOpen(true),
+        closeMobileSidebar: () => setMobileOpen(false),
+        toggleMobileSidebar: () => setMobileOpen(prev => !prev)
     };
-
 }
