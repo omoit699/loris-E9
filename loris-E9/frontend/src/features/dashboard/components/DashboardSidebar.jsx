@@ -1,47 +1,31 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import DashboardLogo from "./DashboardLogo";
+import DashboardProfile from "./DashboardProfile";
+import DashboardNavItem from "./DashboardNavItem";
+import DashboardFooter from "./DashboardFooter";
 
-import {
-    FiMenu,
-    FiChevronLeft,
-    FiChevronRight,
-    FiLogOut,
-    FiUser
-} from "react-icons/fi";
-
-import DashboardMenuItem from "./DashboardMenuItem";
-import company from "../../../constants/company";
+import useSidebar from "../hooks/useSidebar";
 
 export default function DashboardSidebar({
 
     user,
 
-    menu = [],
+    navigation = [],
 
-    mobileOpen,
-
-    setMobileOpen
+    onLogout
 
 }) {
 
-    const navigate = useNavigate();
+    const {
 
-    const [collapsed, setCollapsed] = useState(false);
+        collapsed,
 
-    const toggleCollapse = () => {
+        mobileOpen,
 
-        setCollapsed(prev => !prev);
+        toggleCollapse,
 
-    };
+        closeMobileSidebar
 
-    const handleLogout = () => {
-
-        // TODO:
-        // Dispatch logout action here
-
-        navigate("/login");
-
-    };
+    } = useSidebar();
 
     return (
 
@@ -56,12 +40,12 @@ export default function DashboardSidebar({
                     className="
                         fixed
                         inset-0
-                        bg-black/50
                         z-40
+                        bg-black/50
                         lg:hidden
                     "
 
-                    onClick={() => setMobileOpen(false)}
+                    onClick={closeMobileSidebar}
 
                 />
 
@@ -72,173 +56,64 @@ export default function DashboardSidebar({
             <aside
 
                 className={`
+
                     fixed
-                    lg:sticky
+
                     top-0
+
                     left-0
-                    h-screen
-                    bg-white
-                    border-r
-                    shadow-sm
-                    transition-all
-                    duration-300
-                    ease-in-out
+
                     z-50
+
+                    flex
+
+                    h-screen
+
+                    flex-col
+
+                    border-r
+
+                    border-slate-200
+
+                    bg-white
+
+                    shadow-xl
+
+                    transition-all
+
+                    duration-300
+
+                    ease-in-out
+
                     ${collapsed ? "w-20" : "w-72"}
-                    ${
-                        mobileOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full lg:translate-x-0"
-                    }
+
+                    ${mobileOpen
+                        ? "translate-x-0"
+                        : "-translate-x-full lg:translate-x-0"}
+
                 `}
 
             >
 
                 {/* Logo */}
 
-                <div
+                <DashboardLogo
 
-                    className="
-                        flex
-                        items-center
-                        justify-between
-                        h-20
-                        border-b
-                        px-5
-                    "
+                    collapsed={collapsed}
 
-                >
+                    onToggleCollapse={toggleCollapse}
 
-                    <Link
-
-                        to="/"
-
-                        className="flex items-center gap-3"
-
-                    >
-
-                        <img
-
-                            src={company.logo}
-
-                            alt={company.name}
-
-                            className="h-11 w-auto"
-
-                        />
-
-                        {!collapsed && (
-
-                            <div>
-
-                                <h2 className="font-bold text-blue-700">
-
-                                    {company.name}
-
-                                </h2>
-
-                                <small className="text-slate-500">
-
-                                    Business Portal
-
-                                </small>
-
-                            </div>
-
-                        )}
-
-                    </Link>
-
-                    <button
-
-                        onClick={toggleCollapse}
-
-                        className="
-                            hidden
-                            lg:flex
-                            h-9
-                            w-9
-                            items-center
-                            justify-center
-                            rounded-lg
-                            hover:bg-slate-100
-                            transition
-                        "
-
-                    >
-
-                        {
-
-                            collapsed
-
-                                ? <FiChevronRight size={18} />
-
-                                : <FiChevronLeft size={18} />
-
-                        }
-
-                    </button>
-
-                </div>
+                />
 
                 {/* User */}
 
-                <div
+                <DashboardProfile
 
-                    className="
-                        border-b
-                        p-5
-                    "
+                    user={user}
 
-                >
+                    collapsed={collapsed}
 
-                    <div className="flex items-center gap-3">
-
-                        <div
-
-                            className="
-                                h-12
-                                w-12
-                                rounded-full
-                                bg-blue-100
-                                flex
-                                items-center
-                                justify-center
-                            "
-
-                        >
-
-                            <FiUser size={22} />
-
-                        </div>
-
-                        {
-
-                            !collapsed && (
-
-                                <div>
-
-                                    <h3 className="font-semibold">
-
-                                        {user?.name}
-
-                                    </h3>
-
-                                    <p className="text-sm text-slate-500">
-
-                                        {user?.role}
-
-                                    </p>
-
-                                </div>
-
-                            )
-
-                        }
-
-                    </div>
-
-                </div>
+                />
 
                 {/* Navigation */}
 
@@ -247,8 +122,8 @@ export default function DashboardSidebar({
                     className="
                         flex-1
                         overflow-y-auto
-                        px-4
-                        py-6
+                        px-3
+                        py-4
                     "
 
                 >
@@ -257,19 +132,23 @@ export default function DashboardSidebar({
 
                         {
 
-                            menu.map(item => (
+                            navigation.map(item => (
 
-                                <DashboardMenuItem
+                                <DashboardNavItem
 
                                     key={item.path}
 
                                     icon={item.icon}
 
-                                    label={collapsed ? "" : item.label}
+                                    label={item.label}
 
                                     to={item.path}
 
                                     badge={item.badge}
+
+                                    collapsed={collapsed}
+
+                                    disabled={item.disabled}
 
                                 />
 
@@ -283,79 +162,15 @@ export default function DashboardSidebar({
 
                 {/* Footer */}
 
-                <div
+                <DashboardFooter
 
-                    className="
-                        border-t
-                        p-4
-                    "
+                    collapsed={collapsed}
 
-                >
+                    onLogout={onLogout}
 
-                    <button
-
-                        onClick={handleLogout}
-
-                        className="
-                            flex
-                            w-full
-                            items-center
-                            gap-3
-                            rounded-xl
-                            px-4
-                            py-3
-                            text-red-600
-                            transition
-                            hover:bg-red-50
-                        "
-
-                    >
-
-                        <FiLogOut size={20} />
-
-                        {
-
-                            !collapsed && (
-
-                                <span>
-
-                                    Logout
-
-                                </span>
-
-                            )
-
-                        }
-
-                    </button>
-
-                </div>
+                />
 
             </aside>
-
-            {/* Mobile Button */}
-
-            <button
-
-                onClick={() => setMobileOpen(true)}
-
-                className="
-                    fixed
-                    top-5
-                    left-5
-                    z-30
-                    rounded-xl
-                    bg-white
-                    p-3
-                    shadow-lg
-                    lg:hidden
-                "
-
-            >
-
-                <FiMenu size={22} />
-
-            </button>
 
         </>
 
