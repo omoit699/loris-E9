@@ -5,116 +5,64 @@ import DashboardTopbar from "../features/dashboard/components/DashboardTopbar";
 import PageLoader from "../components/common/feedback/PageLoader";
 
 import adminNavigation from "../features/dashboard/navigation/adminNavigation";
+import useSidebar from "../features/dashboard/hooks/useSidebar";
 
-/*
-|--------------------------------------------------------------------------
-| Temporary Authentication Hook
-|--------------------------------------------------------------------------
-| Replace this with your Auth Context / Redux / Zustand later.
-|--------------------------------------------------------------------------
-*/
-
-const useAuth = () => {
-
-    return {
-
-        loading: false,
-
-        isAuthenticated: true,
-
-        user: {
-
-            id: 1,
-
-            name: "Administrator",
-
-            email: "lawrenceomoit66@gmail.com",
-
-            role: "Admin",
-
-            avatar: ""
-
-        }
-
-    };
-
-};
+const useAuth = () => ({
+    loading: false,
+    isAuthenticated: true,
+    user: {
+        id: 1,
+        name: "Administrator",
+        email: "lawrenceomoit66@gmail.com",
+        role: "Admin",
+        avatar: ""
+    }
+});
 
 export default function AdminLayout() {
 
     const {
-
         loading,
-
         isAuthenticated,
-
         user
-
     } = useAuth();
 
-    const handleLogout = () => {
+    const sidebar = useSidebar();
 
-        // TODO:
-        // Clear authentication
-        // Remove tokens
-        // Redirect to login
-
-        console.log("Logging out...");
-
-    };
-
-    if (loading) {
-
-        return <PageLoader />;
-
-    }
+    if (loading) return <PageLoader />;
 
     if (!isAuthenticated) {
-
         return <Navigate to="/login" replace />;
-
     }
 
     return (
-
-        <div className="flex min-h-screen bg-slate-100">
+        <div className="min-h-screen bg-slate-100">
 
             <DashboardSidebar
-
                 user={user}
-
                 navigation={adminNavigation}
-
-                onLogout={handleLogout}
-
+                onLogout={() => console.log("Logout")}
+                {...sidebar}
             />
 
-            <div className="flex flex-1 flex-col lg:ml-72">
+            <div
+                className="min-h-screen transition-all duration-300"
+                style={{
+                    marginLeft: sidebar.collapsed ? "5rem" : "18rem"
+                }}
+            >
 
                 <DashboardTopbar
-
                     user={user}
-
+                    {...sidebar}
                 />
 
-                <main
-
-                    className="
-                        flex-1
-                        overflow-y-auto
-                        p-6
-                    "
-
-                >
-
+                <main className="p-6">
                     <Outlet />
-
                 </main>
 
             </div>
 
         </div>
-
     );
-
 }
